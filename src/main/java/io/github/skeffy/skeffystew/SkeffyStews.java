@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import io.github.skeffy.skeffystew.block.ModBlocks;
 import io.github.skeffy.skeffystew.item.ModCreativeModeTabs;
 import io.github.skeffy.skeffystew.item.ModItems;
+import io.github.skeffy.skeffystew.recipe.ModRecipes;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -34,6 +35,7 @@ public class SkeffyStews {
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModRecipes.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
