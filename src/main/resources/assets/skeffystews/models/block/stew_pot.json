@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "bottom": "skeffystews:block/stew_pot_bottom",
+    "front": "skeffystews:block/stew_pot_front",
+    "side": "skeffystews:block/stew_pot_side",
+    "top": "skeffystews:block/stew_pot_top"
+  }
+}
