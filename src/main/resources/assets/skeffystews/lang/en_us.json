@@ -1,6 +1,8 @@
 {
   "creativetab.skeffy_stews_tab": "Skeffy's Stews",
 
+  "block.skeffystews.stew_pot": "Stew pot",
+
   "item.skeffystews.blinding_stew": "Blinding stew",
   "item.skeffystews.healing_stew": "Healing stew"
 }

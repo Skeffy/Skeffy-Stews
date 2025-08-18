@@ -1,6 +1,7 @@
 package io.github.skeffy.skeffystew.item;
 
 import io.github.skeffy.skeffystew.SkeffyStews;
+import io.github.skeffy.skeffystew.block.ModBlocks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -17,6 +18,7 @@ public class ModCreativeModeTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.HEALING_STEW.get()))
                     .title(Component.translatable("creativetab.skeffy_stews_tab"))
                     .displayItems((pParameters, pOutput) -> {
+                        pOutput.accept(ModBlocks.STEW_POT.get());
                         pOutput.accept(ModItems.BLINDING_STEW.get());
                         pOutput.accept(ModItems.HEALING_STEW.get());
                     })
