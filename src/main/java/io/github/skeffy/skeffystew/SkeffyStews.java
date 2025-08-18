@@ -1,6 +1,10 @@
 package io.github.skeffy.skeffystew;
 
 import com.mojang.logging.LogUtils;
+import io.github.skeffy.skeffystew.block.ModBlocks;
+import io.github.skeffy.skeffystew.item.ModCreativeModeTabs;
+import io.github.skeffy.skeffystew.item.ModItems;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -25,7 +29,11 @@ public class SkeffyStews {
     public SkeffyStews(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
 
+        ModCreativeModeTabs.register(modEventBus);
         modEventBus.addListener(this::commonSetup);
+
+        ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
@@ -37,7 +45,10 @@ public class SkeffyStews {
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-
+        if(event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
+            event.accept(ModItems.BLINDING_STEW);
+            event.accept(ModItems.HEALING_STEW);
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
