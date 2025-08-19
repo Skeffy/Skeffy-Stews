@@ -1,6 +1,7 @@
 package io.github.skeffy.skeffystew.block;
 
 import io.github.skeffy.skeffystew.SkeffyStews;
+import io.github.skeffy.skeffystew.block.custom.StewPotBlock;
 import io.github.skeffy.skeffystew.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -19,7 +20,7 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, SkeffyStews.MOD_ID);
 
     public static final RegistryObject<Block> STEW_POT = registerBlock("stew_pot",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+            () -> new StewPotBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
