@@ -2,9 +2,14 @@ package io.github.skeffy.skeffystew;
 
 import com.mojang.logging.LogUtils;
 import io.github.skeffy.skeffystew.block.ModBlocks;
+import io.github.skeffy.skeffystew.block.entity.ModBlockEntities;
 import io.github.skeffy.skeffystew.item.ModCreativeModeTabs;
 import io.github.skeffy.skeffystew.item.ModItems;
 import io.github.skeffy.skeffystew.recipe.ModRecipes;
+import io.github.skeffy.skeffystew.screen.ModMenuTypes;
+import io.github.skeffy.skeffystew.screen.StewPotScreen;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -36,6 +41,8 @@ public class SkeffyStews {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModRecipes.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
@@ -64,7 +71,7 @@ public class SkeffyStews {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-
+            MenuScreens.register(ModMenuTypes.STEW_POT_MENU.get(), StewPotScreen::new);
         }
     }
 }
