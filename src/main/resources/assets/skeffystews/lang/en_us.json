@@ -1,8 +1,11 @@
 {
   "creativetab.skeffy_stews_tab": "Skeffy's Stews",
 
-  "block.skeffystews.stew_pot": "Stew pot",
+  "block.skeffystews.stew_pot": "Stew Pot",
 
-  "item.skeffystews.blinding_stew": "Blinding stew",
-  "item.skeffystews.healing_stew": "Healing stew"
+  "item.skeffystews.unfired_ceramic_bowl": "Unfired Ceramic Bowl",
+  "item.skeffystews.ceramic_bowl": "Ceramic Bowl",
+  "item.skeffystews.stew_base": "Stew Base",
+  "item.skeffystews.blinding_stew": "Blinding Stew",
+  "item.skeffystews.healing_stew": "Healing Stew"
 }
