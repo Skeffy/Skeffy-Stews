@@ -19,6 +19,9 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.skeffy_stews_tab"))
                     .displayItems((pParameters, pOutput) -> {
                         pOutput.accept(ModBlocks.STEW_POT.get());
+                        pOutput.accept(ModItems.UNFIRED_CERAMIC_BOWL.get());
+                        pOutput.accept(ModItems.CERAMIC_BOWL.get());
+                        pOutput.accept(ModItems.STEW_BASE.get());
                         pOutput.accept(ModItems.BLINDING_STEW.get());
                         pOutput.accept(ModItems.HEALING_STEW.get());
                     })
