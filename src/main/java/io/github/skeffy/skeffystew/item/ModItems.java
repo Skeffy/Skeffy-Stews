@@ -19,6 +19,13 @@ public class ModItems {
 
     public static List<RegistryObject<Item>> modItems = new ArrayList<>();
 
+    public static final RegistryObject<Item> UNFIRED_CERAMIC_BOWL = ITEMS.register("unfired_ceramic_bowl",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> CERAMIC_BOWL = ITEMS.register("ceramic_bowl",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> STEW_BASE = ITEMS.register("stew_base",
+            () -> new StewItem(new StewItem.Properties().food(ModFoodProperties.STEW_BASE)));
     public static final RegistryObject<Item> BLINDING_STEW = ITEMS.register("blinding_stew",
             () -> new StewItem(new StewItem.Properties().food(ModFoodProperties.BLINDING_STEW)));
     public static final RegistryObject<Item> HEALING_STEW = ITEMS.register("healing_stew",
