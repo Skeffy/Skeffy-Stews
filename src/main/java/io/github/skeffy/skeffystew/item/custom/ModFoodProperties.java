@@ -5,6 +5,9 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 
 public class ModFoodProperties {
+    public static final FoodProperties STEW_BASE = new FoodProperties.Builder().nutrition(2)
+            .saturationMod(1f).build();
+
     public static final FoodProperties HEALING_STEW = new FoodProperties.Builder().nutrition(4)
             .saturationMod(1f).effect(() -> new MobEffectInstance(MobEffects.HEAL, 1), 100).build();
 
