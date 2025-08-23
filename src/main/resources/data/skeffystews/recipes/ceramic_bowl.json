@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.25,
+  "ingredient": {
+    "item": "skeffystews:unfired_ceramic_bowl"
+  },
+  "result": "skeffystews:ceramic_bowl"
+}

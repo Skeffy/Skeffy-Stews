@@ -1,0 +1,18 @@
+{
+  "type": "skeffystews:stew_cooking",
+  "ingredients": [
+    {
+      "item": "minecraft:bowl"
+    },
+    {
+      "item": "minecraft:cooked_chicken"
+    },
+    {
+      "item": "minecraft:carrot"
+    }
+  ],
+  "result": {
+    "item": "skeffystews:stew_base",
+    "count": 1
+  }
+}
