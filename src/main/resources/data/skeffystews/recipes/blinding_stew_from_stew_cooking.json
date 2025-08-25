@@ -1,12 +1,14 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
+  "type": "skeffystews:stew_cooking",
   "ingredients": [
     {
-      "item": "minecraft:mushroom_stew"
+      "item": "skeffystews:stew_base"
     },
     {
       "item": "minecraft:spider_eye"
+    },
+    {
+      "item": "minecraft:rotten_flesh"
     }
   ],
   "result": {
