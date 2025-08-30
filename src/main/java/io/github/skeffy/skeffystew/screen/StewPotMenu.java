@@ -36,7 +36,7 @@ public class StewPotMenu extends AbstractContainerMenu {
             this.addSlot(new SlotItemHandler(iItemHandler, 1, 48, 17));
             this.addSlot(new SlotItemHandler(iItemHandler, 2, 73, 17));
             this.addSlot(new SlotItemHandler(iItemHandler, 3, 48, 53));
-            this.addSlot(new SlotItemHandler(iItemHandler, 4, 128, 31));
+            this.addSlot(new SlotItemHandler(iItemHandler, 4, 132, 35));
         });
     }
 
