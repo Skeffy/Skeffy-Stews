@@ -1,5 +1,7 @@
 {
   "type": "skeffystews:stew_cooking",
+  "cookingtime": 200,
+  "experience": 0.7,
   "ingredients": [
     {
       "item": "skeffystews:stew_base"
