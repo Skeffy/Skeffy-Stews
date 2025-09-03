@@ -39,18 +39,27 @@ public class StewPotMenu extends AbstractContainerMenu {
             this.addSlot(new SlotItemHandler(iItemHandler, 3, 48, 17));
             this.addSlot(new SlotItemHandler(iItemHandler, 4, 73, 17));
         });
+
+        addDataSlots(data);
     }
 
     public boolean isCrafting() {
         return data.get(0) > 0;
     }
 
-    public int getScaledProgress() {
-        int progress = this.data.get(0);
-        int maxProgress = this.data.get(1);
-        int progressArrowSize = 22;
+    public int getCraftingProgress() {
+        int i = this.data.get(2);
+        int j = this.data.get(3);
+        return j != 0 && i != 0 ? i * 24 / j : 0;
+    }
 
-        return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
+    public int getFuelProgress() {
+        int i = this.data.get(1);
+        if (i == 0) {
+            i = 200;
+        }
+
+        return this.data.get(0) * 13 / i;
     }
 
     private static final int HOTBAR_SLOT_COUNT = 9;
