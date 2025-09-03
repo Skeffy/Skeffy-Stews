@@ -1,7 +1,6 @@
 package io.github.skeffy.skeffystew.recipe;
 
 import io.github.skeffy.skeffystew.SkeffyStews;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.eventbus.api.IEventBus;
