@@ -1,22 +1,25 @@
 package io.github.skeffy.skeffystew.block.entity;
 
-import io.github.skeffy.skeffystew.item.ModItems;
+import io.github.skeffy.skeffystew.block.custom.StewPotBlock;
+import io.github.skeffy.skeffystew.recipe.ModRecipes;
+import io.github.skeffy.skeffystew.recipe.StewCookingRecipe;
 import io.github.skeffy.skeffystew.screen.StewPotMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.Containers;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -26,44 +29,57 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class StewPotBlockEntity extends BlockEntity implements MenuProvider {
+import java.util.Optional;
+
+public class StewPotBlockEntity extends AbstractFurnaceBlockEntity implements MenuProvider {
     private final ItemStackHandler itemHandler = new ItemStackHandler(5);
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
-    private int OUTPUT_SLOT = 5;
-    private int BOWL_SLOT = 1;
-    private int INGREDIENT_SLOT_1 = 2;
-    private int INGREDIENT_SLOT_2 = 3;
-    private int FUEL_SLOT = 4;
-    protected final ContainerData data;
-    private int progress = 0;
-    private int maxProgress = 78;
+    private static final int OUTPUT_SLOT = 2;
+    private static final int BOWL_SLOT = 0;
+    private static final int INGREDIENT_SLOT_1 = 3;
+    private static final int INGREDIENT_SLOT_2 = 4;
+    private static final int FUEL_SLOT = 1;
+    int litTime;
+    int litDuration;
+    int cookingProgress;
+    int cookingTotalTime;
+    protected final ContainerData dataAccess = new ContainerData() {
+        public int get(int pIndex) {
+            return switch (pIndex) {
+                case 0 -> StewPotBlockEntity.this.litTime;
+                case 1 -> StewPotBlockEntity.this.litDuration;
+                case 2 -> StewPotBlockEntity.this.cookingProgress;
+                case 3 -> StewPotBlockEntity.this.cookingTotalTime;
+                default -> 0;
+            };
+        }
 
+        public void set(int pIndex, int pValue) {
+            switch (pIndex) {
+                case 0:
+                    StewPotBlockEntity.this.litTime = pValue;
+                    break;
+                case 1:
+                    StewPotBlockEntity.this.litDuration = pValue;
+                    break;
+                case 2:
+                    StewPotBlockEntity.this.cookingProgress = pValue;
+                    break;
+                case 3:
+                    StewPotBlockEntity.this.cookingTotalTime = pValue;
+            }
+
+        }
+
+        public int getCount() {
+            return 4;
+        }
+    };
+    private final RecipeManager.CachedCheck<Container, ? extends AbstractCookingRecipe> quickCheck;
 
     public StewPotBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(ModBlockEntities.STEW_POT_BLOCK_ENTITY.get(), pPos, pBlockState);
-        this.data = new ContainerData() {
-            @Override
-            public int get(int pIndex) {
-                return switch (pIndex) {
-                    case 0 -> StewPotBlockEntity.this.progress;
-                    case 1 -> StewPotBlockEntity.this.maxProgress;
-                    default -> 0;
-                };
-            }
-
-            @Override
-            public void set(int pIndex, int pValue) {
-                switch (pIndex) {
-                    case 0 -> StewPotBlockEntity.this.progress = pValue;
-                    case 1 -> StewPotBlockEntity.this.maxProgress = pValue;
-                }
-            }
-
-            @Override
-            public int getCount() {
-                return 2;
-            }
-        };
+        super(ModBlockEntities.STEW_POT_BLOCK_ENTITY.get(), pPos, pBlockState, ModRecipes.STEW_COOKING_TYPE.get());
+        this.quickCheck = RecipeManager.createCheck((RecipeType) ModRecipes.STEW_COOKING_TYPE.get());
     }
 
     @Override
@@ -97,50 +113,93 @@ public class StewPotBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.translatable("block.skeffystews.stew_pot");
     }
 
     @Override
-    public @Nullable AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-        return new StewPotMenu(pContainerId, pPlayerInventory, this, this.data);
+    protected @NotNull Component getDefaultName() {
+        return Component.literal("Stew Pot");
+    }
+
+    @Override
+    public @Nullable AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pPlayerInventory, @NotNull Player pPlayer) {
+        return new StewPotMenu(pContainerId, pPlayerInventory, this, this.dataAccess);
+    }
+
+    @Override
+    protected @NotNull AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pInventory) {
+        return new StewPotMenu(pContainerId, pInventory, this, this.dataAccess);
     }
 
     @Override
     protected void saveAdditional(CompoundTag pTag) {
         pTag.put("inventory", itemHandler.serializeNBT());
-        pTag.putInt("stew_pot.progress", progress);
+        pTag.putInt("stew_pot.progress", cookingProgress);
         super.saveAdditional(pTag);
     }
 
     @Override
-    public void load(CompoundTag pTag) {
+    public void load(@NotNull CompoundTag pTag) {
         super.load(pTag);
         itemHandler.deserializeNBT(pTag.getCompound("inventory"));
-        progress = pTag.getInt("stew_pot.progress");
+        cookingProgress = pTag.getInt("stew_pot.progress");
     }
 
+    private boolean isLit() {
+        return this.litTime > 0;
+    }
 
     public void tick(Level pLevel, BlockPos pPos, BlockState pState) {
-        if(hasRecipe()) {
-            increaseCraftingProgress();
+        ItemStack fuelStack = itemHandler.getStackInSlot(FUEL_SLOT);
+        boolean litFlag = isLit();
+        boolean updateFlag = false;
+        boolean hasFuel = !fuelStack.isEmpty();
+        if(isLit()) {
+            --litTime;
+        }
+
+        if(!isLit() && hasFuel && hasRecipe()) {
+            litTime = getBurnDuration(fuelStack);
+            litDuration = litTime;
+            if(isLit()) {
+                updateFlag = true;
+            }
+            fuelStack.shrink(1);
+        }
+
+        if(isLit() && hasRecipe()) {
+            cookingProgress++;
             setChanged(pLevel, pPos, pState);
 
-            if(hasProgressFinished()) {
+            if(cookingProgress == cookingTotalTime) {
+                cookingProgress = 0;
+                cookingTotalTime = getTotalCookTime(pLevel, this);
                 craftItem();
-                resetProgress();
             }
         } else {
-            resetProgress();
+            cookingProgress = 0;
+        }
+
+        if(litFlag != isLit()) {
+            updateFlag = true;
+            pState = pState.setValue(StewPotBlock.LIT, isLit());
+            pLevel.setBlock(pPos, pState, 3);
+        }
+
+        if(updateFlag) {
+            setChanged(pLevel, pPos, pState);
         }
     }
 
-    private void resetProgress() {
-        progress = 0;
+    private static int getTotalCookTime(Level pLevel, StewPotBlockEntity pBlockEntity) {
+        return pBlockEntity.quickCheck.getRecipeFor(pBlockEntity, pLevel).map(AbstractCookingRecipe::getCookingTime).orElse(200);
     }
 
     private void craftItem() {
-        ItemStack result = new ItemStack(ModItems.HEALING_STEW.get());
+        Optional<StewCookingRecipe> recipe = getCurrentRecipe();
+        ItemStack result = recipe.get().getResultItem(null);
+
         this.itemHandler.extractItem(BOWL_SLOT, 1, false);
         this.itemHandler.extractItem(INGREDIENT_SLOT_1, 1, false);
         this.itemHandler.extractItem(INGREDIENT_SLOT_2, 1, false);
@@ -149,18 +208,23 @@ public class StewPotBlockEntity extends BlockEntity implements MenuProvider {
                 this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + result.getCount()));
     }
 
-    private boolean hasProgressFinished() {
-        return progress >= maxProgress;
-    }
-
-    private void increaseCraftingProgress() {
-        progress++;
-    }
-
     private boolean hasRecipe() {
-        ItemStack result = new ItemStack(ModItems.HEALING_STEW.get());
-        boolean hasCraftingItems = false;
-        return hasCraftingItems && canInsertAmountIntoOutput(result.getCount()) && canInsertItemIntoOutput(result.getItem());
+        Optional<StewCookingRecipe> recipe = getCurrentRecipe();
+        if(recipe.isEmpty()) {
+            return false;
+        }
+        ItemStack result = recipe.get().getResultItem(null);
+        cookingTotalTime = recipe.get().getCookingTime();
+        return canInsertAmountIntoOutput(result.getCount()) && canInsertItemIntoOutput(result.getItem());
+    }
+
+    private Optional<StewCookingRecipe> getCurrentRecipe() {
+        SimpleContainer inventory = new SimpleContainer(this.itemHandler.getSlots());
+        for(int i = 0; i < itemHandler.getSlots(); i++) {
+            inventory.setItem(i, this.itemHandler.getStackInSlot(i));
+        }
+
+        return this.level.getRecipeManager().getRecipeFor(ModRecipes.STEW_COOKING_TYPE.get(), inventory, level);
     }
 
     private boolean canInsertItemIntoOutput(Item item) {
