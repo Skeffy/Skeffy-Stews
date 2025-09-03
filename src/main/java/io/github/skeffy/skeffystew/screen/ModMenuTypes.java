@@ -15,10 +15,10 @@ public class ModMenuTypes {
             DeferredRegister.create(ForgeRegistries.MENU_TYPES, SkeffyStews.MOD_ID);
 
     public static final RegistryObject<MenuType<StewPotMenu>> STEW_POT_MENU =
-            registerMenuType("stew_pot_menu", StewPotMenu::new);
+            registerMenuType(StewPotMenu::new);
 
-    private static <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
-        return MENUS.register(name, () -> IForgeMenuType.create(factory));
+    private static <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory) {
+        return MENUS.register("stew_pot_menu", () -> IForgeMenuType.create(factory));
     }
 
     public static void register(IEventBus eventBus) {
