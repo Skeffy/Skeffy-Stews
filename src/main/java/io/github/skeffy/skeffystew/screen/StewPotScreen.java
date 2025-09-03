@@ -39,13 +39,14 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotMenu> {
 
     private void renderFuelProgressIcon(GuiGraphics pGuiGraphics, int x, int y) {
         if(menu.isCrafting()) {
-            pGuiGraphics.blit(TEXTURE, x + 50, y + 37, 176, 0, 14, menu.getScaledProgress());
+            int i = menu.getFuelProgress();
+            pGuiGraphics.blit(TEXTURE, x + 49, y + 36 + 12 - i, 176, 12 - i, 14, i + 1);
         }
     }
 
     private void renderProgressIcon(GuiGraphics pGuiGraphics, int x, int y) {
         if(menu.isCrafting()) {
-            pGuiGraphics.blit(TEXTURE, x + 98, y + 35, 176, 14, menu.getScaledProgress(), 24);
+            pGuiGraphics.blit(TEXTURE, x + 96, y + 34, 176, 14, menu.getCraftingProgress(), 24);
         }
     }
 
