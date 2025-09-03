@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 public class StewPotScreen extends AbstractContainerScreen<StewPotMenu> {
     private static final ResourceLocation TEXTURE =
@@ -33,6 +34,7 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotMenu> {
         pGuiGraphics.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
 
         renderProgressIcon(pGuiGraphics, x, y);
+        renderFuelProgressIcon(pGuiGraphics, x, y);
     }
 
     private void renderFuelProgressIcon(GuiGraphics pGuiGraphics, int x, int y) {
@@ -48,7 +50,7 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotMenu> {
     }
 
     @Override
-    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+    public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         renderBackground(pGuiGraphics);
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         renderTooltip(pGuiGraphics, pMouseX, pMouseY);
