@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:campfire"
+    },
+    "U": {
+      "item": "minecraft:cauldron"
+    }
+  },
+  "pattern": [
+    " U ",
+    " # "
+  ],
+  "result": {
+    "item": "skeffystews:stew_pot"
+  }
+}
