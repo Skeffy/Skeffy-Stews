@@ -40,6 +40,11 @@ public class StewCookingRecipe extends AbstractCookingRecipe {
     }
 
     @Override
+    public @NotNull NonNullList<Ingredient> getIngredients() {
+        return inputItems;
+    }
+
+    @Override
     public @NotNull ItemStack getResultItem(@Nullable RegistryAccess pRegistryAccess) {
         return result.copy();
     }
