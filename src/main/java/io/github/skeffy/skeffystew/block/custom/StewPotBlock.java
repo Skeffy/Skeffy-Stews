@@ -19,7 +19,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -32,8 +31,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.function.ToIntFunction;
 
 public class StewPotBlock extends AbstractFurnaceBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
@@ -91,17 +88,12 @@ public class StewPotBlock extends AbstractFurnaceBlock {
     }
 
     @Override
-    public @NotNull RenderShape getRenderShape(@NotNull BlockState pState) {
-        return RenderShape.MODEL;
-    }
-
-    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(FACING, LIT);
     }
 
     @Override
-    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
+    public void animateTick(BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull RandomSource pRandom) {
         if (pState.getValue(LIT)) {
             if (pRandom.nextInt(10) == 0) {
                 pLevel.playLocalSound((double)pPos.getX() + 0.5D, (double)pPos.getY() + 0.5D, (double)pPos.getZ() + 0.5D, SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS, 0.75F + pRandom.nextFloat(), pRandom.nextFloat() * 0.7F + 0.6F, false);
