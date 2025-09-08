@@ -2,33 +2,33 @@
   "variants": {
     "facing=east,lit=false": {
       "model": "skeffystews:block/stew_pot",
-      "y": 90
+      "y": 270
     },
     "facing=east,lit=true": {
-      "model": "skeffystews:block/stew_pot_on",
-      "y": 90
+      "model": "skeffystews:block/stew_pot_lit",
+      "y": 270
     },
     "facing=north,lit=false": {
-      "model": "skeffystews:block/stew_pot"
-    },
-    "facing=north,lit=true": {
-      "model": "skeffystews:block/stew_pot_on"
-    },
-    "facing=south,lit=false": {
       "model": "skeffystews:block/stew_pot",
       "y": 180
     },
-    "facing=south,lit=true": {
-      "model": "skeffystews:block/stew_pot_on",
+    "facing=north,lit=true": {
+      "model": "skeffystews:block/stew_pot_lit",
       "y": 180
+    },
+    "facing=south,lit=false": {
+      "model": "skeffystews:block/stew_pot"
+    },
+    "facing=south,lit=true": {
+      "model": "skeffystews:block/stew_pot_lit"
     },
     "facing=west,lit=false": {
       "model": "skeffystews:block/stew_pot",
-      "y": 270
+      "y": 90
     },
     "facing=west,lit=true": {
-      "model": "skeffystews:block/stew_pot_on",
-      "y": 270
+      "model": "skeffystews:block/stew_pot_lit",
+      "y": 90
     }
   }
 }
