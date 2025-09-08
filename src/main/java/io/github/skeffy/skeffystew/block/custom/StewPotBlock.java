@@ -82,7 +82,7 @@ public class StewPotBlock extends AbstractFurnaceBlock {
     protected void openContainer(Level pLevel, @NotNull BlockPos pPos, @NotNull Player pPlayer) {
         BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
         if(blockEntity instanceof StewPotBlockEntity) {
-            ((ServerPlayer) pPlayer).openMenu(new SimpleMenuProvider((MenuProvider) blockEntity, Component.literal("Stew Pot")));
+            (pPlayer).openMenu(new SimpleMenuProvider((MenuProvider) blockEntity, Component.literal("Stew Pot")));
             pPlayer.awardStat(Stats.INTERACT_WITH_FURNACE);
         }
     }
