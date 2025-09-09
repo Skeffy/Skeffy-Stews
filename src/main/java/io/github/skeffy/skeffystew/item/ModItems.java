@@ -30,6 +30,8 @@ public class ModItems {
             () -> new StewItem(new StewItem.Properties().food(ModFoodProperties.BLINDING_STEW)));
     public static final RegistryObject<Item> HEALING_STEW = ITEMS.register("healing_stew",
             () -> new StewItem(new StewItem.Properties().food(ModFoodProperties.HEALING_STEW)));
+    public static final RegistryObject<Item> HEARTY_STEW = ITEMS.register("hearty_stew",
+            () -> new StewItem(new StewItem.Properties().food(ModFoodProperties.HEARTY_STEW)));
 
 
     public static void register(IEventBus eventBus) {

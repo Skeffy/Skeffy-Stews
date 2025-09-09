@@ -15,7 +15,7 @@ public class ModCreativeModeTabs {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SkeffyStews.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> STEWS_TAB = CREATIVE_MODE_TABS.register("skeffys_stews_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.HEALING_STEW.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.STEW_POT.get()))
                     .title(Component.translatable("creativetab.skeffy_stews_tab"))
                     .displayItems((pParameters, pOutput) -> {
                         pOutput.accept(ModBlocks.STEW_POT.get());
@@ -24,6 +24,7 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.STEW_BASE.get());
                         pOutput.accept(ModItems.BLINDING_STEW.get());
                         pOutput.accept(ModItems.HEALING_STEW.get());
+                        pOutput.accept(ModItems.HEARTY_STEW.get());
                     })
                     .build());
 
