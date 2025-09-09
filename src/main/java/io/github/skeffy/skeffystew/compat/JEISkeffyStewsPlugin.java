@@ -38,7 +38,7 @@ public class JEISkeffyStewsPlugin implements IModPlugin {
 
     @Override
     public void registerGuiHandlers(@NotNull IGuiHandlerRegistration registration) {
-        registration.addRecipeClickArea(StewPotScreen.class, 96, 35, 22, 24,
+        registration.addRecipeClickArea(StewPotScreen.class, 97, 35, 22, 16,
                 StewCookingCategory.STEW_COOKING_TYPE);
     }
 }
