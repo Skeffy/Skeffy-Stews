@@ -1,0 +1,20 @@
+{
+  "type": "skeffystews:stew_cooking",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "ingredients": [
+    {
+      "item": "skeffystews:stew_base"
+    },
+    {
+      "item": "minecraft:cooked_beef"
+    },
+    {
+      "item": "minecraft:potato"
+    }
+  ],
+  "result": {
+    "item": "skeffystews:hearty_stew",
+    "count": 1
+  }
+}
