@@ -2,6 +2,7 @@ package io.github.skeffy.skeffystew.screen;
 
 import io.github.skeffy.skeffystew.block.ModBlocks;
 import io.github.skeffy.skeffystew.block.entity.StewPotBlockEntity;
+import io.github.skeffy.skeffystew.util.ModTags;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -9,11 +10,20 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class StewPotMenu extends AbstractContainerMenu {
+    private static final int BOWL_SLOT = 0;
+    private static final int FUEL_SLOT = 1;
+    private static final int OUTPUT_SLOT = 2;
+    private static final int INGREDIENT_SLOT_1 = 3;
+    private static final int INGREDIENT_SLOT_2 = 4;
+    private static final int SLOT_COUNT = 5;
+    private static final int INV_SLOT_START = 5;
+    private static final int INV_SLOT_END = 32;
     public final StewPotBlockEntity blockEntity;
     private final Level level;
     private final ContainerData data;
@@ -60,6 +70,18 @@ public class StewPotMenu extends AbstractContainerMenu {
         }
 
         return this.data.get(0) * 13 / i;
+    }
+
+    public boolean isFuel(ItemStack itemStack) {
+        return ForgeHooks.getBurnTime(itemStack, null) > 0;
+    }
+
+    public boolean isBowl(ItemStack itemStack) {
+        return itemStack.is(ModTags.Items.BOWL_ITEMS);
+    }
+
+    public boolean isIngredient(ItemStack itemStack) {
+        return true;
     }
 
     private static final int HOTBAR_SLOT_COUNT = 9;
