@@ -2,12 +2,16 @@ package io.github.skeffy.skeffystew.screen;
 
 import io.github.skeffy.skeffystew.block.ModBlocks;
 import io.github.skeffy.skeffystew.block.entity.StewPotBlockEntity;
+import io.github.skeffy.skeffystew.recipe.ModRecipes;
+import io.github.skeffy.skeffystew.recipe.StewCookingRecipe;
 import io.github.skeffy.skeffystew.util.ModTags;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.ForgeHooks;
@@ -21,9 +25,11 @@ public class StewPotMenu extends AbstractContainerMenu {
     private static final int OUTPUT_SLOT = 2;
     private static final int INGREDIENT_SLOT_1 = 3;
     private static final int INGREDIENT_SLOT_2 = 4;
-    private static final int SLOT_COUNT = 5;
     private static final int INV_SLOT_START = 5;
-    private static final int INV_SLOT_END = 32;
+    private static final int INV_SLOT_END = 31;
+    private static final int HOTBAR_START = 32;
+    private static final int HOTBAR_END = 41;
+    private final RecipeType<StewCookingRecipe> recipeType;
     public final StewPotBlockEntity blockEntity;
     private final Level level;
     private final ContainerData data;
@@ -38,9 +44,7 @@ public class StewPotMenu extends AbstractContainerMenu {
         blockEntity = ((StewPotBlockEntity) entity);
         this.level = inv.player.level();
         this.data = data;
-
-        addPlayerInventory(inv);
-        addPlayerHotbar(inv);
+        this.recipeType = ModRecipes.STEW_COOKING_TYPE.get();
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
             this.addSlot(new SlotItemHandler(iItemHandler, 0, 23, 17));
@@ -50,6 +54,8 @@ public class StewPotMenu extends AbstractContainerMenu {
             this.addSlot(new SlotItemHandler(iItemHandler, 4, 73, 17));
         });
 
+        addPlayerInventory(inv);
+        addPlayerHotbar(inv);
         addDataSlots(data);
     }
 
@@ -73,7 +79,7 @@ public class StewPotMenu extends AbstractContainerMenu {
     }
 
     public boolean isFuel(ItemStack itemStack) {
-        return ForgeHooks.getBurnTime(itemStack, null) > 0;
+        return ForgeHooks.getBurnTime(itemStack, recipeType) > 0;
     }
 
     public boolean isBowl(ItemStack itemStack) {
@@ -81,50 +87,60 @@ public class StewPotMenu extends AbstractContainerMenu {
     }
 
     public boolean isIngredient(ItemStack itemStack) {
-        return true;
+        return this.level.getRecipeManager().getRecipeFor(this.recipeType, new SimpleContainer(itemStack), this.level).isPresent();
     }
 
-    private static final int HOTBAR_SLOT_COUNT = 9;
-    private static final int PLAYER_INVENTORY_ROW_COUNT = 3;
-    private static final int PLAYER_INVENTORY_COLUMN_COUNT = 9;
-    private static final int PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT;
-    private static final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
-    private static final int VANILLA_FIRST_SLOT_INDEX = 0;
-    private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
-
-    // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 5;  // must be the number of slots you have!
     @Override
-    public @NotNull ItemStack quickMoveStack(@NotNull Player playerIn, int pIndex) {
-        Slot sourceSlot = slots.get(pIndex);
-        if (!sourceSlot.hasItem()) return ItemStack.EMPTY;  //EMPTY_ITEM
-        ItemStack sourceStack = sourceSlot.getItem();
-        ItemStack copyOfSourceStack = sourceStack.copy();
+    public @NotNull ItemStack quickMoveStack(@NotNull Player pPlayer, int pIndex) {
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(pIndex);
+        if (slot != null && slot.hasItem()) {
+            ItemStack itemstack1 = slot.getItem();
+            itemstack = itemstack1.copy();
+            if (pIndex == OUTPUT_SLOT) {
+                if (!this.moveItemStackTo(itemstack1, INV_SLOT_START, INV_SLOT_END, true)) {
+                    return ItemStack.EMPTY;
+                }
 
-        // Check if the slot clicked is one of the vanilla container slots
-        if (pIndex < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT) {
-            // This is a vanilla container slot so merge the stack into the tile inventory
-            if (!moveItemStackTo(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX
-                    + TE_INVENTORY_SLOT_COUNT, false)) {
-                return ItemStack.EMPTY;  // EMPTY_ITEM
-            }
-        } else if (pIndex < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT) {
-            // This is a TE slot so merge the stack into the players inventory
-            if (!moveItemStackTo(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
+                slot.onQuickCraft(itemstack1, itemstack);
+            } else if (pIndex >= INV_SLOT_START && pIndex <= INV_SLOT_END) {
+                if (isBowl(itemstack1)) {
+                  if (!this.moveItemStackTo(itemstack1, BOWL_SLOT, BOWL_SLOT + 1, false)) {
+                      return ItemStack.EMPTY;
+                  }
+                } else if (isIngredient(itemstack1)) {
+                    if (!this.moveItemStackTo(itemstack1, INGREDIENT_SLOT_1, INGREDIENT_SLOT_2 + 1, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else if (isFuel(itemstack1)) {
+                    if (!this.moveItemStackTo(itemstack1, FUEL_SLOT, FUEL_SLOT + 1, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else if (pIndex < INV_SLOT_END) {
+                    if (!this.moveItemStackTo(itemstack1, HOTBAR_START, HOTBAR_END, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else if (pIndex < HOTBAR_END && !this.moveItemStackTo(itemstack1, INV_SLOT_START, INV_SLOT_END, false)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (!this.moveItemStackTo(itemstack1, INV_SLOT_START, HOTBAR_END, false)) {
                 return ItemStack.EMPTY;
             }
-        } else {
-            System.out.println("Invalid slotIndex:" + pIndex);
-            return ItemStack.EMPTY;
+
+            if (itemstack1.isEmpty()) {
+                slot.setByPlayer(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
+            }
+
+            if (itemstack1.getCount() == itemstack.getCount()) {
+                return ItemStack.EMPTY;
+            }
+
+            slot.onTake(pPlayer, itemstack1);
         }
-        // If stack size == 0 (the entire stack was moved) set slot contents to null
-        if (sourceStack.getCount() == 0) {
-            sourceSlot.set(ItemStack.EMPTY);
-        } else {
-            sourceSlot.setChanged();
-        }
-        sourceSlot.onTake(playerIn, sourceStack);
-        return copyOfSourceStack;
+
+        return itemstack;
     }
 
     @Override
