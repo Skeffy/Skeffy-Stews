@@ -2,6 +2,10 @@ package io.github.skeffy.skeffystew.screen;
 
 import io.github.skeffy.skeffystew.block.ModBlocks;
 import io.github.skeffy.skeffystew.block.entity.StewPotBlockEntity;
+import io.github.skeffy.skeffystew.inventory.StewPotBowlSlot;
+import io.github.skeffy.skeffystew.inventory.StewPotFuelSlot;
+import io.github.skeffy.skeffystew.inventory.StewPotIngredientSlot;
+import io.github.skeffy.skeffystew.inventory.StewPotOutputSlot;
 import io.github.skeffy.skeffystew.recipe.ModRecipes;
 import io.github.skeffy.skeffystew.recipe.StewCookingRecipe;
 import io.github.skeffy.skeffystew.util.ModTags;
@@ -15,7 +19,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class StewPotMenu extends AbstractContainerMenu {
@@ -46,11 +49,11 @@ public class StewPotMenu extends AbstractContainerMenu {
         this.recipeType = ModRecipes.STEW_COOKING_TYPE.get();
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-            this.addSlot(new SlotItemHandler(iItemHandler, 0, 23, 17));
-            this.addSlot(new SlotItemHandler(iItemHandler, 1, 48, 53));
-            this.addSlot(new SlotItemHandler(iItemHandler, 2, 132, 35));
-            this.addSlot(new SlotItemHandler(iItemHandler, 3, 48, 17));
-            this.addSlot(new SlotItemHandler(iItemHandler, 4, 73, 17));
+            this.addSlot(new StewPotBowlSlot(this, iItemHandler, 0, 23, 17));
+            this.addSlot(new StewPotFuelSlot(this, iItemHandler, 1, 48, 53));
+            this.addSlot(new StewPotOutputSlot(iItemHandler,2, 132, 35));
+            this.addSlot(new StewPotIngredientSlot(this, iItemHandler, 3, 48, 17));
+            this.addSlot(new StewPotIngredientSlot(this, iItemHandler, 4, 73, 17));
         });
 
         addPlayerInventory(inv);
@@ -93,7 +96,7 @@ public class StewPotMenu extends AbstractContainerMenu {
     public @NotNull ItemStack quickMoveStack(@NotNull Player pPlayer, int pIndex) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(pIndex);
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (pIndex == OUTPUT_SLOT) {
