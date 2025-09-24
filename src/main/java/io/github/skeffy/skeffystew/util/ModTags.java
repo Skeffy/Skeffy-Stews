@@ -9,7 +9,7 @@ import net.minecraft.world.item.Item;
 public class ModTags {
     public static class Items {
         public static final TagKey<Item> BOWL_ITEMS = tag("bowl_items");
-
+        public static final TagKey<Item> STEW_INGREDIENTS = tag("stew_ingredients");
 
         private static TagKey<Item> tag(String name) {
             return ItemTags.create(ResourceLocation.fromNamespaceAndPath(SkeffyStews.MOD_ID, name));
