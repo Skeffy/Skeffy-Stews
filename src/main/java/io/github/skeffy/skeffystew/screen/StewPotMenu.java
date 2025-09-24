@@ -6,7 +6,6 @@ import io.github.skeffy.skeffystew.recipe.ModRecipes;
 import io.github.skeffy.skeffystew.recipe.StewCookingRecipe;
 import io.github.skeffy.skeffystew.util.ModTags;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -87,7 +86,7 @@ public class StewPotMenu extends AbstractContainerMenu {
     }
 
     public boolean isIngredient(ItemStack itemStack) {
-        return this.level.getRecipeManager().getRecipeFor(this.recipeType, new SimpleContainer(itemStack), this.level).isPresent();
+        return itemStack.is(ModTags.Items.STEW_INGREDIENTS);
     }
 
     @Override
