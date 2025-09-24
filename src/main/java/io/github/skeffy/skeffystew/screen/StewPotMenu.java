@@ -98,12 +98,12 @@ public class StewPotMenu extends AbstractContainerMenu {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (pIndex == OUTPUT_SLOT) {
-                if (!this.moveItemStackTo(itemstack1, INV_SLOT_START, INV_SLOT_END, true)) {
+                if (!this.moveItemStackTo(itemstack1, INV_SLOT_START, HOTBAR_END, true)) {
                     return ItemStack.EMPTY;
                 }
 
                 slot.onQuickCraft(itemstack1, itemstack);
-            } else if (pIndex >= INV_SLOT_START && pIndex <= INV_SLOT_END) {
+            } else if (pIndex >= INV_SLOT_START && pIndex <= HOTBAR_END) {
                 if (isBowl(itemstack1)) {
                   if (!this.moveItemStackTo(itemstack1, BOWL_SLOT, BOWL_SLOT + 1, false)) {
                       return ItemStack.EMPTY;
