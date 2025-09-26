@@ -17,7 +17,7 @@ public class ModRecipes {
     public static final RegistryObject<RecipeSerializer<StewCookingRecipe>> STEW_COOKING_SERIALIZER =
             SERIALIZERS.register("stew_cooking", () -> new StewCookingRecipe.Serializer(200));
     public static final RegistryObject<RecipeType<StewCookingRecipe>> STEW_COOKING_TYPE =
-            TYPES.register("stew_cooking", () -> new RecipeType<StewCookingRecipe>() {
+            TYPES.register("stew_cooking", () -> new RecipeType<>() {
                 @Override
                 public String toString() {
                     return "stew_cooking";
