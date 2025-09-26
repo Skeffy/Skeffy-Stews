@@ -13,7 +13,6 @@ public class StewPotIngredientSlot extends SlotItemHandler {
         this.menu = menu;
     }
 
-
     @Override
     public boolean mayPlace(ItemStack pStack) {
         return this.menu.isIngredient(pStack);

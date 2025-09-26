@@ -14,7 +14,6 @@ public class StewPotFuelSlot extends SlotItemHandler {
         this.menu = menu;
     }
 
-
     @Override
     public boolean mayPlace(@NotNull ItemStack pStack) {
         return this.menu.isFuel(pStack);
