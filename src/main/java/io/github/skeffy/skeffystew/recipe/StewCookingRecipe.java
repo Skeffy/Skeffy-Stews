@@ -81,25 +81,22 @@ public class StewCookingRecipe extends AbstractCookingRecipe {
 
         public @NotNull T fromJson(@NotNull ResourceLocation pRecipeId, @NotNull JsonObject pJson) {
             String s = GsonHelper.getAsString(pJson, "group", "");
-            CookingBookCategory cookingbookcategory = CookingBookCategory.CODEC.byName(GsonHelper.getAsString(pJson, "category", (String)null), CookingBookCategory.MISC);
-            //JsonElement jsonelement = (JsonElement)(GsonHelper.isArrayNode(pJson, "ingredients") ? GsonHelper.getAsJsonArray(pJson, "ingredients") : GsonHelper.getAsJsonObject(pJson, "ingredients"));
-            //Ingredient ingredient = Ingredient.fromJson(jsonelement, false);
+            CookingBookCategory cookingbookcategory = CookingBookCategory.CODEC.byName(GsonHelper.getAsString(pJson, "category", null), CookingBookCategory.MISC);
             NonNullList<Ingredient> nonnulllist = itemsFromJson(GsonHelper.getAsJsonArray(pJson, "ingredients"));
             if (nonnulllist.isEmpty()) {
                 throw new JsonParseException("No ingredients for shapeless recipe");
             } else if (nonnulllist.size() > 3) {
                 throw new JsonParseException("Too many ingredients for shapeless recipe. The maximum is 3");
             }
-            //Forge: Check if primitive string to keep vanilla or a object which can contain a count field.
+            //Forge: Check if primitive string to keep vanilla or an object which can contain a count field.
             if (!pJson.has("result")) throw new com.google.gson.JsonSyntaxException("Missing result, expected to find a string or object");
             ItemStack itemstack;
             if (pJson.get("result").isJsonObject()) itemstack = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(pJson, "result"));
             else {
                 String s1 = GsonHelper.getAsString(pJson, "result");
                 ResourceLocation resourcelocation = ResourceLocation.fromNamespaceAndPath(s1, s1);
-                itemstack = new ItemStack(BuiltInRegistries.ITEM.getOptional(resourcelocation).orElseThrow(() -> {
-                    return new IllegalStateException("Item: " + s1 + " does not exist");
-                }));
+                itemstack = new ItemStack(BuiltInRegistries.ITEM.getOptional(resourcelocation).orElseThrow(() ->
+                        new IllegalStateException("Item: " + s1 + " does not exist")));
             }
             float f = GsonHelper.getAsFloat(pJson, "experience", 0.0F);
             int i = GsonHelper.getAsInt(pJson, "cookingtime", this.defaultCookingTime);
