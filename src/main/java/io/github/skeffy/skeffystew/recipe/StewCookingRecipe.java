@@ -20,6 +20,9 @@ public class StewCookingRecipe extends AbstractCookingRecipe {
     private final NonNullList<Ingredient> inputItems;
     private final ItemStack result;
     private final ResourceLocation id;
+    private final int BOWL_INDEX = 0;
+    private final int INGREDIENT_1_INDEX = 1;
+    private final int INGREDIENT_2_INDEX = 2;
 
     public StewCookingRecipe(ResourceLocation pId, String pGroup, CookingBookCategory pCategory, NonNullList<Ingredient> pIngredients, ItemStack pResult, float pExperience, int pCookingTime) {
         super(ModRecipes.STEW_COOKING_TYPE.get(), pId, pGroup, pCategory, pIngredients.get(0), pResult, pExperience, pCookingTime);
@@ -30,12 +33,18 @@ public class StewCookingRecipe extends AbstractCookingRecipe {
 
     @Override
     public boolean matches(@NotNull Container pInv, @NotNull Level pLevel) {
-        for(int i = 0; i < inputItems.size(); i++) {
-            if(!inputItems.get(i).test(pInv.getItem(i))) {
-                return false;
+        Ingredient bowl = inputItems.get(BOWL_INDEX);
+        Ingredient ingredient1 = inputItems.get(INGREDIENT_1_INDEX);
+        Ingredient ingredient2 = inputItems.get(INGREDIENT_2_INDEX);
+
+        if(bowl.test(pInv.getItem(BOWL_INDEX))) {
+            if(ingredient1.test(pInv.getItem(INGREDIENT_1_INDEX))) {
+                return ingredient2.test(pInv.getItem(INGREDIENT_2_INDEX));
+            } else if(ingredient1.test(pInv.getItem(INGREDIENT_2_INDEX))) {
+                return ingredient2.test(pInv.getItem(INGREDIENT_1_INDEX));
             }
         }
-        return true;
+        return false;
     }
 
     @Override
