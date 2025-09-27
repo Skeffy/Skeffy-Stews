@@ -30,9 +30,8 @@ public class StewCookingRecipe extends AbstractCookingRecipe {
 
     @Override
     public boolean matches(@NotNull Container pInv, @NotNull Level pLevel) {
-        int[] ingredientSlots = new int[] {0,3,4};
         for(int i = 0; i < inputItems.size(); i++) {
-            if(!inputItems.get(i).test(pInv.getItem(ingredientSlots[i]))) {
+            if(!inputItems.get(i).test(pInv.getItem(i))) {
                 return false;
             }
         }
