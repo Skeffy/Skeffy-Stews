@@ -34,11 +34,11 @@ import java.util.Optional;
 public class StewPotBlockEntity extends AbstractFurnaceBlockEntity implements MenuProvider {
     private final ItemStackHandler itemHandler = new ItemStackHandler(5);
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
-    private static final int OUTPUT_SLOT = 2;
+    private static final int OUTPUT_SLOT = 4;
     private static final int BOWL_SLOT = 0;
-    private static final int INGREDIENT_SLOT_1 = 3;
-    private static final int INGREDIENT_SLOT_2 = 4;
-    private static final int FUEL_SLOT = 1;
+    private static final int INGREDIENT_SLOT_1 = 1;
+    private static final int INGREDIENT_SLOT_2 = 2;
+    private static final int FUEL_SLOT = 3;
     int litTime;
     int litDuration;
     int cookingProgress;
