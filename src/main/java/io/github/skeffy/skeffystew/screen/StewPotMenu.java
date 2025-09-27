@@ -23,10 +23,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class StewPotMenu extends AbstractContainerMenu {
     private static final int BOWL_SLOT = 0;
-    private static final int FUEL_SLOT = 1;
-    private static final int OUTPUT_SLOT = 2;
-    private static final int INGREDIENT_SLOT_1 = 3;
-    private static final int INGREDIENT_SLOT_2 = 4;
+    private static final int FUEL_SLOT = 3;
+    private static final int OUTPUT_SLOT = 4;
+    private static final int INGREDIENT_SLOT_1 = 1;
+    private static final int INGREDIENT_SLOT_2 = 2;
     private static final int INV_SLOT_START = 5;
     private static final int INV_SLOT_END = 31;
     private static final int HOTBAR_START = 32;
@@ -49,11 +49,11 @@ public class StewPotMenu extends AbstractContainerMenu {
         this.recipeType = ModRecipes.STEW_COOKING_TYPE.get();
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-            this.addSlot(new StewPotBowlSlot(this, iItemHandler, 0, 23, 17));
-            this.addSlot(new StewPotFuelSlot(this, iItemHandler, 1, 48, 53));
-            this.addSlot(new StewPotOutputSlot(iItemHandler,2, 132, 35));
-            this.addSlot(new StewPotIngredientSlot(this, iItemHandler, 3, 48, 17));
-            this.addSlot(new StewPotIngredientSlot(this, iItemHandler, 4, 73, 17));
+            this.addSlot(new StewPotBowlSlot(this, iItemHandler, BOWL_SLOT, 23, 17));
+            this.addSlot(new StewPotIngredientSlot(this, iItemHandler, INGREDIENT_SLOT_1, 48, 17));
+            this.addSlot(new StewPotIngredientSlot(this, iItemHandler, INGREDIENT_SLOT_2, 73, 17));
+            this.addSlot(new StewPotFuelSlot(this, iItemHandler, FUEL_SLOT, 48, 53));
+            this.addSlot(new StewPotOutputSlot(iItemHandler,OUTPUT_SLOT, 132, 35));
         });
 
         addPlayerInventory(inv);
