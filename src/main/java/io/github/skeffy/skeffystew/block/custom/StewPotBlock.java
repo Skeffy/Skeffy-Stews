@@ -70,11 +70,12 @@ public class StewPotBlock extends AbstractFurnaceBlock {
 
     @Override
     public void onRemove(BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
-        if(pState.getBlock() != pNewState.getBlock()) {
+        if(!pState.is(pNewState.getBlock())) {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
             if(blockEntity instanceof StewPotBlockEntity) {
                 ((StewPotBlockEntity) blockEntity).drops();
             }
+            pLevel.removeBlockEntity(pPos);
         }
     }
 
