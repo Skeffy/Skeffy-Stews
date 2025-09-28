@@ -1,5 +1,6 @@
 package io.github.skeffy.skeffystew.block.entity;
 
+import io.github.skeffy.skeffystew.SkeffyStews;
 import io.github.skeffy.skeffystew.block.custom.StewPotBlock;
 import io.github.skeffy.skeffystew.recipe.ModRecipes;
 import io.github.skeffy.skeffystew.recipe.StewCookingRecipe;
@@ -16,6 +17,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -134,8 +136,11 @@ public class StewPotBlockEntity extends AbstractFurnaceBlockEntity implements Me
 
     @Override
     protected void saveAdditional(CompoundTag pTag) {
+        SkeffyStews.LOGGER.info("Saving block entity");
         pTag.put("inventory", itemHandler.serializeNBT());
         pTag.putInt("stew_pot.progress", cookingProgress);
+        pTag.putInt("stew_pot.lit_time", litTime);
+        pTag.putInt("stew_pot.lit_duration", litDuration);
         super.saveAdditional(pTag);
     }
 
@@ -144,6 +149,8 @@ public class StewPotBlockEntity extends AbstractFurnaceBlockEntity implements Me
         super.load(pTag);
         itemHandler.deserializeNBT(pTag.getCompound("inventory"));
         cookingProgress = pTag.getInt("stew_pot.progress");
+        litTime = pTag.getInt("stew_pot.lit_time");
+        litDuration = pTag.getInt("stew_pot.lit_duration");
     }
 
     private boolean isLit() {
@@ -153,43 +160,41 @@ public class StewPotBlockEntity extends AbstractFurnaceBlockEntity implements Me
     public void tick(Level pLevel, BlockPos pPos, BlockState pState) {
         ItemStack fuelStack = itemHandler.getStackInSlot(FUEL_SLOT);
         boolean litFlag = isLit();
-        boolean updateFlag = false;
         boolean hasFuel = !fuelStack.isEmpty();
         if(isLit()) {
             --litTime;
         }
 
-        if(!isLit() && hasFuel && hasRecipe()) {
-            litTime = getBurnDuration(fuelStack);
-            litDuration = litTime;
-            if(isLit()) {
-                updateFlag = true;
+        if(isLit() || hasFuel && hasRecipe()) {
+            Recipe<?> recipe = quickCheck.getRecipeFor(this, pLevel).orElse(null);
+
+            if(!isLit() && hasFuel && hasRecipe()) {
+                litTime = getBurnDuration(fuelStack);
+                litDuration = litTime;
+                fuelStack.shrink(1);
             }
-            fuelStack.shrink(1);
-        }
 
-        if(isLit() && hasRecipe()) {
-            cookingProgress++;
-            setChanged(pLevel, pPos, pState);
+            if(isLit() && hasRecipe()) {
+                cookingProgress++;
+                setChanged(pLevel, pPos, pState);
 
-            if(cookingProgress == cookingTotalTime) {
+                if(cookingProgress == cookingTotalTime) {
+                    cookingProgress = 0;
+                    cookingTotalTime = getTotalCookTime(pLevel, this);
+                    craftItem();
+                    setRecipeUsed(recipe);
+                }
+            } else {
                 cookingProgress = 0;
-                cookingTotalTime = getTotalCookTime(pLevel, this);
-                craftItem();
             }
-        } else {
-            cookingProgress = 0;
         }
 
         if(litFlag != isLit()) {
-            updateFlag = true;
             pState = pState.setValue(StewPotBlock.LIT, isLit());
             pLevel.setBlock(pPos, pState, 3);
         }
 
-        if(updateFlag) {
-            setChanged(pLevel, pPos, pState);
-        }
+        setChanged(pLevel, pPos, pState);
     }
 
     private static int getTotalCookTime(Level pLevel, StewPotBlockEntity pBlockEntity) {
