@@ -1,6 +1,5 @@
 package io.github.skeffy.skeffystew.block.entity;
 
-import io.github.skeffy.skeffystew.SkeffyStews;
 import io.github.skeffy.skeffystew.block.custom.StewPotBlock;
 import io.github.skeffy.skeffystew.recipe.ModRecipes;
 import io.github.skeffy.skeffystew.recipe.StewCookingRecipe;
