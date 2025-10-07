@@ -136,7 +136,6 @@ public class StewPotBlockEntity extends AbstractFurnaceBlockEntity implements Me
 
     @Override
     protected void saveAdditional(CompoundTag pTag) {
-        SkeffyStews.LOGGER.info("Saving block entity");
         pTag.put("inventory", itemHandler.serializeNBT());
         pTag.putInt("stew_pot.progress", cookingProgress);
         pTag.putInt("stew_pot.lit_time", litTime);
