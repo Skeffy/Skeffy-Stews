@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "skeffystews:item/tier_2_stew_base"
+  }
+}
