@@ -5,7 +5,12 @@
 
   "item.skeffystews.unfired_ceramic_bowl": "Unfired Ceramic Bowl",
   "item.skeffystews.ceramic_bowl": "Ceramic Bowl",
+  "item.skeffystews.golden_bowl": "Golden Bowl",
+
   "item.skeffystews.stew_base": "Stew Base",
+  "item.skeffystews.tier_2_stew_base": "Tier 2 Stew Base",
+  "item.skeffystews.tier_3_stew_base": "Tier 3 Stew Base",
+
   "item.skeffystews.blinding_stew": "Blinding Stew",
   "item.skeffystews.healing_stew": "Healing Stew",
   "item.skeffystews.hearty_stew": "Hearty Stew"
