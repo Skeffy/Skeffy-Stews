@@ -1,0 +1,20 @@
+{
+  "type": "skeffystews:stew_cooking",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "ingredients": [
+    {
+      "item": "skeffystews:tier_2_stew_base"
+    },
+    {
+      "item": "minecraft:glistering_melon_slice"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "result": {
+    "item": "skeffystews:healing_stew",
+    "count": 1
+  }
+}
