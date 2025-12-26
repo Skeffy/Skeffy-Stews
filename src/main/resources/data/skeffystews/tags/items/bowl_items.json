@@ -2,6 +2,9 @@
   "values": [
     "minecraft:bowl",
     "skeffystews:ceramic_bowl",
-    "skeffystews:stew_base"
+    "skeffystews:golden_bowl",
+    "skeffystews:stew_base",
+    "skeffystews:tier_2_stew_base",
+    "skeffystews:tier_3_stew_base"
   ]
 }
