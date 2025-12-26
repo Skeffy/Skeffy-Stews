@@ -1,6 +1,10 @@
 {
   "values": [
     "minecraft:spider_eye",
-    "minecraft:rotten_flesh"
+    "minecraft:rotten_flesh",
+    "minecraft:cooked_beef",
+    "minecraft:potato",
+    "minecraft:sugar",
+    "minecraft:glistering_melon_slice"
   ]
 }
