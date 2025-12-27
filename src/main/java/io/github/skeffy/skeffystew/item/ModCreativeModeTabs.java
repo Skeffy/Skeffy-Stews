@@ -22,9 +22,9 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.UNFIRED_CERAMIC_BOWL.get());
                         pOutput.accept(ModItems.CERAMIC_BOWL.get());
                         pOutput.accept(ModItems.GOLDEN_BOWL.get());
+                        pOutput.accept(ModItems.STEW_BASE.get());
                         pOutput.accept(ModItems.TIER_2_STEW_BASE.get());
                         pOutput.accept(ModItems.TIER_3_STEW_BASE.get());
-                        pOutput.accept(ModItems.STEW_BASE.get());
                         pOutput.accept(ModItems.BLINDING_STEW.get());
                         pOutput.accept(ModItems.HEALING_STEW.get());
                         pOutput.accept(ModItems.HEARTY_STEW.get());
