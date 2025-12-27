@@ -31,9 +31,9 @@ public class ModItems {
     public static final RegistryObject<Item> STEW_BASE = ITEMS.register("stew_base",
             () -> new StewItem(new StewItem.Properties().food(ModFoodProperties.STEW_BASE)));
     public static final RegistryObject<Item> TIER_2_STEW_BASE = ITEMS.register("tier_2_stew_base",
-            () -> new Tier2StewItem(new Item.Properties().food(ModFoodProperties.TIER_2_STEW_BASE)));
+            () -> new Tier2StewItem(new Tier2StewItem.Properties().food(ModFoodProperties.TIER_2_STEW_BASE)));
     public static final RegistryObject<Item> TIER_3_STEW_BASE = ITEMS.register("tier_3_stew_base",
-            () -> new Tier3StewItem(new Item.Properties().food(ModFoodProperties.TIER_3_STEW_BASE)));
+            () -> new Tier3StewItem(new Tier3StewItem.Properties().food(ModFoodProperties.TIER_3_STEW_BASE)));
 
     public static final RegistryObject<Item> BLINDING_STEW = ITEMS.register("blinding_stew",
             () -> new StewItem(new StewItem.Properties().food(ModFoodProperties.BLINDING_STEW)));
