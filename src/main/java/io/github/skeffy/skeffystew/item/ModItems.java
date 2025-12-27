@@ -3,6 +3,8 @@ package io.github.skeffy.skeffystew.item;
 import io.github.skeffy.skeffystew.SkeffyStews;
 import io.github.skeffy.skeffystew.item.custom.ModFoodProperties;
 import io.github.skeffy.skeffystew.item.custom.StewItem;
+import io.github.skeffy.skeffystew.item.custom.Tier2StewItem;
+import io.github.skeffy.skeffystew.item.custom.Tier3StewItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -29,14 +31,14 @@ public class ModItems {
     public static final RegistryObject<Item> STEW_BASE = ITEMS.register("stew_base",
             () -> new StewItem(new StewItem.Properties().food(ModFoodProperties.STEW_BASE)));
     public static final RegistryObject<Item> TIER_2_STEW_BASE = ITEMS.register("tier_2_stew_base",
-            () -> new StewItem(new Item.Properties().food(ModFoodProperties.STEW_BASE)));
+            () -> new Tier2StewItem(new Item.Properties().food(ModFoodProperties.TIER_2_STEW_BASE)));
     public static final RegistryObject<Item> TIER_3_STEW_BASE = ITEMS.register("tier_3_stew_base",
-            () -> new StewItem(new Item.Properties().food(ModFoodProperties.STEW_BASE)));
+            () -> new Tier3StewItem(new Item.Properties().food(ModFoodProperties.TIER_3_STEW_BASE)));
 
     public static final RegistryObject<Item> BLINDING_STEW = ITEMS.register("blinding_stew",
             () -> new StewItem(new StewItem.Properties().food(ModFoodProperties.BLINDING_STEW)));
     public static final RegistryObject<Item> HEALING_STEW = ITEMS.register("healing_stew",
-            () -> new StewItem(new StewItem.Properties().food(ModFoodProperties.HEALING_STEW)));
+            () -> new Tier2StewItem(new StewItem.Properties().food(ModFoodProperties.HEALING_STEW)));
     public static final RegistryObject<Item> HEARTY_STEW = ITEMS.register("hearty_stew",
             () -> new StewItem(new StewItem.Properties().food(ModFoodProperties.HEARTY_STEW)));
 
