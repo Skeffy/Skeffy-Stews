@@ -1,0 +1,20 @@
+{
+  "type": "skeffystews:stew_cooking",
+  "cookingtime": 200,
+  "experience": 0.5,
+  "ingredients": [
+    {
+      "item": "skeffystews:golden_bowl"
+    },
+    {
+      "item": "minecraft:cooked_chicken"
+    },
+    {
+      "item": "minecraft:carrot"
+    }
+  ],
+  "result": {
+    "item": "skeffystews:tier_3_stew_base",
+    "count": 1
+  }
+}
