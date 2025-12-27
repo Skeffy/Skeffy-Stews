@@ -3,6 +3,7 @@ package io.github.skeffy.skeffystew.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import io.github.skeffy.skeffystew.SkeffyStews;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -25,7 +26,7 @@ public class StewCookingRecipe extends AbstractCookingRecipe {
     private final int INGREDIENT_2_INDEX = 2;
 
     public StewCookingRecipe(ResourceLocation pId, String pGroup, CookingBookCategory pCategory, NonNullList<Ingredient> pIngredients, ItemStack pResult, float pExperience, int pCookingTime) {
-        super(ModRecipes.STEW_COOKING_TYPE.get(), pId, pGroup, pCategory, pIngredients.get(0), pResult, pExperience, pCookingTime);
+        super(Type.INSTANCE, pId, pGroup, pCategory, pIngredients.get(0), pResult, pExperience, pCookingTime);
         this.inputItems = pIngredients;
         this.result = pResult;
         this.id = pId;
@@ -37,10 +38,10 @@ public class StewCookingRecipe extends AbstractCookingRecipe {
         Ingredient ingredient1 = inputItems.get(INGREDIENT_1_INDEX);
         Ingredient ingredient2 = inputItems.get(INGREDIENT_2_INDEX);
 
-        if(bowl.test(pInv.getItem(BOWL_INDEX))) {
-            if(ingredient1.test(pInv.getItem(INGREDIENT_1_INDEX))) {
+        if (bowl.test(pInv.getItem(BOWL_INDEX))) {
+            if (ingredient1.test(pInv.getItem(INGREDIENT_1_INDEX))) {
                 return ingredient2.test(pInv.getItem(INGREDIENT_2_INDEX));
-            } else if(ingredient1.test(pInv.getItem(INGREDIENT_2_INDEX))) {
+            } else if (ingredient1.test(pInv.getItem(INGREDIENT_2_INDEX))) {
                 return ingredient2.test(pInv.getItem(INGREDIENT_1_INDEX));
             }
         }
@@ -64,30 +65,25 @@ public class StewCookingRecipe extends AbstractCookingRecipe {
 
     @Override
     public @NotNull RecipeSerializer<?> getSerializer() {
-        return ModRecipes.STEW_COOKING_SERIALIZER.get();
+        return Serializer.INSTANCE;
     }
 
     @Override
     public @NotNull RecipeType<?> getType() {
-        return ModRecipes.STEW_COOKING_TYPE.get();
+        return Type.INSTANCE;
     }
 
-    public static class Serializer extends SimpleCookingSerializer<StewCookingRecipe> {
-        public Serializer(int pDefaultCookingTime) {
-            super(StewCookingRecipe::new, pDefaultCookingTime);
-        }
+    public static class Type implements RecipeType<StewCookingRecipe> {
+        public static final Type INSTANCE = new Type();
+        public static final String ID = "stew_cooking";
     }
 
-    public static class SimpleCookingSerializer<T extends AbstractCookingRecipe> implements RecipeSerializer<T> {
-        private final int defaultCookingTime;
-        private final SimpleCookingSerializer.CookieBaker<T> factory;
+    public static class Serializer implements RecipeSerializer<StewCookingRecipe> {
+        public static final Serializer INSTANCE = new Serializer();
+        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(SkeffyStews.MOD_ID, "stew_cooking");
+        private final int defaultCookingTime = 200;
 
-        public SimpleCookingSerializer(SimpleCookingSerializer.CookieBaker<T> pFactory, int pDefaultCookingTime) {
-            this.defaultCookingTime = pDefaultCookingTime;
-            this.factory = pFactory;
-        }
-
-        public @NotNull T fromJson(@NotNull ResourceLocation pRecipeId, @NotNull JsonObject pJson) {
+        public @NotNull StewCookingRecipe fromJson(@NotNull ResourceLocation pRecipeId, @NotNull JsonObject pJson) {
             String s = GsonHelper.getAsString(pJson, "group", "");
             CookingBookCategory cookingbookcategory = CookingBookCategory.CODEC.byName(GsonHelper.getAsString(pJson, "category", null), CookingBookCategory.MISC);
             NonNullList<Ingredient> nonnulllist = itemsFromJson(GsonHelper.getAsJsonArray(pJson, "ingredients"));
@@ -108,7 +104,7 @@ public class StewCookingRecipe extends AbstractCookingRecipe {
             }
             float f = GsonHelper.getAsFloat(pJson, "experience", 0.0F);
             int i = GsonHelper.getAsInt(pJson, "cookingtime", this.defaultCookingTime);
-            return this.factory.create(pRecipeId, s, cookingbookcategory, nonnulllist, itemstack, f, i);
+            return new StewCookingRecipe(pRecipeId, s, cookingbookcategory, nonnulllist, itemstack, f, i);
         }
 
         private static NonNullList<Ingredient> itemsFromJson(JsonArray pIngredientArray) {
@@ -122,32 +118,31 @@ public class StewCookingRecipe extends AbstractCookingRecipe {
             return nonnulllist;
         }
 
-        public T fromNetwork(@NotNull ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
-            String s = pBuffer.readUtf();
+        public StewCookingRecipe fromNetwork(@NotNull ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
+            String group = pBuffer.readUtf();
             CookingBookCategory cookingbookcategory = pBuffer.readEnum(CookingBookCategory.class);
             NonNullList<Ingredient> inputs = NonNullList.withSize(pBuffer.readInt(), Ingredient.EMPTY);
 
             inputs.replaceAll(ignored -> Ingredient.fromNetwork(pBuffer));
 
             ItemStack output = pBuffer.readItem();
-            float f = pBuffer.readFloat();
-            int i = pBuffer.readVarInt();
-            return this.factory.create(pRecipeId, s, cookingbookcategory, inputs, output, f, i);
+            float experience = pBuffer.readFloat();
+            int cookingTime = pBuffer.readVarInt();
+            return new StewCookingRecipe(pRecipeId, group, cookingbookcategory, inputs, output, experience, cookingTime);
         }
 
-        public void toNetwork(FriendlyByteBuf pBuffer, T pRecipe) {
+        public void toNetwork(FriendlyByteBuf pBuffer, StewCookingRecipe pRecipe) {
             pBuffer.writeUtf(pRecipe.getGroup());
             pBuffer.writeEnum(pRecipe.category());
+            pBuffer.writeInt(pRecipe.inputItems.size());
+
             for(Ingredient ingredient : pRecipe.getIngredients()) {
                 ingredient.toNetwork(pBuffer);
             }
+
             pBuffer.writeItem(pRecipe.getResultItem(null));
             pBuffer.writeFloat(pRecipe.getExperience());
             pBuffer.writeVarInt(pRecipe.getCookingTime());
-        }
-
-        interface CookieBaker<T extends AbstractCookingRecipe> {
-            T create(ResourceLocation pId, String pGroup, CookingBookCategory pCategory, NonNullList<Ingredient> pIngredients, ItemStack pResult, float pExperience, int pCookingTime);
         }
     }
 }
