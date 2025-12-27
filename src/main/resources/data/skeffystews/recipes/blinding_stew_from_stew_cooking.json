@@ -14,5 +14,8 @@
       "item": "minecraft:rotten_flesh"
     }
   ],
-  "result": "skeffystews:blinding_stew"
+  "result": {
+    "item": "skeffystews:blinding_stew",
+    "count": 1
+  }
 }
