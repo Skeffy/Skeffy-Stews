@@ -32,7 +32,7 @@ public class JEISkeffyStewsPlugin implements IModPlugin {
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
         RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
 
-        List<StewCookingRecipe> stewCookingRecipes = recipeManager.getAllRecipesFor(ModRecipes.STEW_COOKING_TYPE.get());
+        List<StewCookingRecipe> stewCookingRecipes = recipeManager.getAllRecipesFor(StewCookingRecipe.Type.INSTANCE);
         registration.addRecipes(StewCookingCategory.STEW_COOKING_TYPE, stewCookingRecipes);
     }
 
