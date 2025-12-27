@@ -6,7 +6,6 @@ import io.github.skeffy.skeffystew.inventory.StewPotBowlSlot;
 import io.github.skeffy.skeffystew.inventory.StewPotFuelSlot;
 import io.github.skeffy.skeffystew.inventory.StewPotIngredientSlot;
 import io.github.skeffy.skeffystew.inventory.StewPotOutputSlot;
-import io.github.skeffy.skeffystew.recipe.ModRecipes;
 import io.github.skeffy.skeffystew.recipe.StewCookingRecipe;
 import io.github.skeffy.skeffystew.util.ModTags;
 import net.minecraft.network.FriendlyByteBuf;
@@ -46,7 +45,7 @@ public class StewPotMenu extends AbstractContainerMenu {
         blockEntity = ((StewPotBlockEntity) entity);
         this.level = inv.player.level();
         this.data = data;
-        this.recipeType = ModRecipes.STEW_COOKING_TYPE.get();
+        this.recipeType = StewCookingRecipe.Type.INSTANCE;
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
             this.addSlot(new StewPotBowlSlot(this, iItemHandler, BOWL_SLOT, 23, 17));

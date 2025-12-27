@@ -1,7 +1,6 @@
 package io.github.skeffy.skeffystew.block.entity;
 
 import io.github.skeffy.skeffystew.block.custom.StewPotBlock;
-import io.github.skeffy.skeffystew.recipe.ModRecipes;
 import io.github.skeffy.skeffystew.recipe.StewCookingRecipe;
 import io.github.skeffy.skeffystew.screen.StewPotMenu;
 import net.minecraft.core.BlockPos;
@@ -18,7 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -79,8 +77,8 @@ public class StewPotBlockEntity extends AbstractFurnaceBlockEntity implements Me
     private final RecipeManager.CachedCheck<Container, ? extends AbstractCookingRecipe> quickCheck;
 
     public StewPotBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(ModBlockEntities.STEW_POT_BLOCK_ENTITY.get(), pPos, pBlockState, ModRecipes.STEW_COOKING_TYPE.get());
-        this.quickCheck = RecipeManager.createCheck((RecipeType) ModRecipes.STEW_COOKING_TYPE.get());
+        super(ModBlockEntities.STEW_POT_BLOCK_ENTITY.get(), pPos, pBlockState, StewCookingRecipe.Type.INSTANCE);
+        this.quickCheck = RecipeManager.createCheck(StewCookingRecipe.Type.INSTANCE);
     }
 
     @Override
@@ -216,7 +214,7 @@ public class StewPotBlockEntity extends AbstractFurnaceBlockEntity implements Me
         if(recipe.isEmpty()) {
             return false;
         }
-        ItemStack result = recipe.get().getResultItem(null);
+        ItemStack result = recipe.get().getResultItem(getLevel().registryAccess());
         cookingTotalTime = recipe.get().getCookingTime();
         return canInsertAmountIntoOutput(result.getCount()) && canInsertItemIntoOutput(result.getItem());
     }
@@ -227,7 +225,7 @@ public class StewPotBlockEntity extends AbstractFurnaceBlockEntity implements Me
             inventory.setItem(i, this.itemHandler.getStackInSlot(i));
         }
 
-        return this.level.getRecipeManager().getRecipeFor(ModRecipes.STEW_COOKING_TYPE.get(), inventory, level);
+        return this.level.getRecipeManager().getRecipeFor(StewCookingRecipe.Type.INSTANCE, inventory, level);
     }
 
     private boolean canInsertItemIntoOutput(Item item) {
