@@ -9,7 +9,6 @@ import io.github.skeffy.skeffystew.recipe.ModRecipes;
 import io.github.skeffy.skeffystew.screen.ModMenuTypes;
 import io.github.skeffy.skeffystew.screen.StewPotScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -53,10 +52,7 @@ public class SkeffyStews {
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if(event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
-            event.accept(ModItems.BLINDING_STEW);
-            event.accept(ModItems.HEALING_STEW);
-        }
+
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
