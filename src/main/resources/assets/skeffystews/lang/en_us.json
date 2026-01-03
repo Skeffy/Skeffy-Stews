@@ -12,6 +12,8 @@
   "item.skeffystews.tier_3_stew_base": "Tier 3 Stew Base",
 
   "item.skeffystews.blinding_stew": "Blinding Stew",
-  "item.skeffystews.healing_stew": "Healing Stew",
-  "item.skeffystews.hearty_stew": "Hearty Stew"
+  "item.skeffystews.rabbit_stew": "Rabbit Stew",
+  "item.skeffystews.hearty_stew": "Hearty Stew",
+
+  "item.skeffystews.healing_stew": "Healing Stew"
 }
