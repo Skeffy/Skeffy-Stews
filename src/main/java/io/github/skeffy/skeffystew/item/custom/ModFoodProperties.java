@@ -1,5 +1,6 @@
 package io.github.skeffy.skeffystew.item.custom;
 
+import io.github.skeffy.skeffystew.effect.ModEffects;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -23,6 +24,8 @@ public class ModFoodProperties {
             .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1800, 2), 100).build();
 
     //Tier 2
+    public static final FoodProperties FORTUNE_STEW = new FoodProperties.Builder().alwaysEat().nutrition(4)
+            .saturationMod(1f).effect(() -> new MobEffectInstance(ModEffects.FORTUNE_EFFECT.get(), 3600, 0), 100).build();
     public static final FoodProperties HEALING_STEW = new FoodProperties.Builder().alwaysEat().nutrition(4)
             .saturationMod(1f).effect(() -> new MobEffectInstance(MobEffects.HEAL, 10), 100).build();
 
