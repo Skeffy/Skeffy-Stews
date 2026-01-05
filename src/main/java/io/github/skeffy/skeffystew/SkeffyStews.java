@@ -3,8 +3,10 @@ package io.github.skeffy.skeffystew;
 import com.mojang.logging.LogUtils;
 import io.github.skeffy.skeffystew.block.ModBlocks;
 import io.github.skeffy.skeffystew.block.entity.ModBlockEntities;
+import io.github.skeffy.skeffystew.effect.ModEffects;
 import io.github.skeffy.skeffystew.item.ModCreativeModeTabs;
 import io.github.skeffy.skeffystew.item.ModItems;
+import io.github.skeffy.skeffystew.loot.ModLootModifiers;
 import io.github.skeffy.skeffystew.recipe.ModRecipes;
 import io.github.skeffy.skeffystew.screen.ModMenuTypes;
 import io.github.skeffy.skeffystew.screen.StewPotScreen;
@@ -41,6 +43,8 @@ public class SkeffyStews {
         ModRecipes.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModMenuTypes.register(modEventBus);
+        ModEffects.register(modEventBus);
+        ModLootModifiers.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
