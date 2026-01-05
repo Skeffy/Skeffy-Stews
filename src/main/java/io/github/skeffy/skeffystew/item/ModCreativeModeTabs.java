@@ -36,6 +36,7 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.RABBIT_STEW.get());
 
                         //Tier 2
+                        pOutput.accept(ModItems.FORTUNE_STEW.get());
                         pOutput.accept(ModItems.HEALING_STEW.get());
 
                         //Tier 3
