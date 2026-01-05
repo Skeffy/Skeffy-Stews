@@ -15,5 +15,8 @@
   "item.skeffystews.rabbit_stew": "Rabbit Stew",
   "item.skeffystews.hearty_stew": "Hearty Stew",
 
-  "item.skeffystews.healing_stew": "Healing Stew"
+  "item.skeffystews.fortune_stew": "Fortune Stew",
+  "item.skeffystews.healing_stew": "Healing Stew",
+
+  "effect.skeffystews.player_fortune": "Fortune"
 }
