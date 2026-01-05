@@ -46,6 +46,8 @@ public class ModItems {
             () -> new StewItem(new StewItem.Properties().food(ModFoodProperties.RABBIT_STEW)));
 
     //Tier 2
+    public static final RegistryObject<Item> FORTUNE_STEW = ITEMS.register("fortune_stew",
+            () -> new Tier2StewItem(new Item.Properties().food(ModFoodProperties.FORTUNE_STEW)));
     public static final RegistryObject<Item> HEALING_STEW = ITEMS.register("healing_stew",
             () -> new Tier2StewItem(new StewItem.Properties().food(ModFoodProperties.HEALING_STEW)));
 
