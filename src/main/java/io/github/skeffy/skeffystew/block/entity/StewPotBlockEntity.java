@@ -3,10 +3,12 @@ package io.github.skeffy.skeffystew.block.entity;
 import io.github.skeffy.skeffystew.block.custom.StewPotBlock;
 import io.github.skeffy.skeffystew.recipe.StewCookingRecipe;
 import io.github.skeffy.skeffystew.screen.StewPotMenu;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -15,7 +17,6 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
@@ -162,7 +163,7 @@ public class StewPotBlockEntity extends AbstractFurnaceBlockEntity implements Me
         }
 
         if(isLit() || hasFuel && hasRecipe()) {
-            Recipe<?> recipe = quickCheck.getRecipeFor(this, pLevel).orElse(null);
+            Optional<StewCookingRecipe> recipe = this.getCurrentRecipe();
 
             if(!isLit() && hasFuel && hasRecipe()) {
                 litTime = getBurnDuration(fuelStack);
@@ -178,7 +179,7 @@ public class StewPotBlockEntity extends AbstractFurnaceBlockEntity implements Me
                     cookingProgress = 0;
                     cookingTotalTime = getTotalCookTime(pLevel, this);
                     craftItem();
-                    setRecipeUsed(recipe);
+                    setRecipeUsed(recipe.get());
                 }
             } else {
                 cookingProgress = 0;
