@@ -4,6 +4,7 @@ import io.github.skeffy.skeffystew.block.entity.ModBlockEntities;
 import io.github.skeffy.skeffystew.block.entity.StewPotBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -28,6 +29,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -73,7 +75,11 @@ public class StewPotBlock extends AbstractFurnaceBlock {
         if(!pState.is(pNewState.getBlock())) {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
             if(blockEntity instanceof StewPotBlockEntity) {
-                ((StewPotBlockEntity) blockEntity).drops();
+                if(pLevel instanceof ServerLevel) {
+                    ((StewPotBlockEntity) blockEntity).drops();
+                    ((StewPotBlockEntity) blockEntity).getRecipesToAwardAndPopExperience((ServerLevel) pLevel, Vec3.atCenterOf(pPos));
+                }
+                pLevel.updateNeighbourForOutputSignal(pPos, this);
             }
             pLevel.removeBlockEntity(pPos);
         }
