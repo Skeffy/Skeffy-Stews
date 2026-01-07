@@ -1,0 +1,21 @@
+{
+  "type": "skeffystews:stew_cooking",
+  "category": "food",
+  "cookingtime": 200,
+  "experience": 1.2,
+  "ingredients": [
+    {
+      "item": "skeffystews:tier_2_stew_base"
+    },
+    {
+      "item": "minecraft:glistering_melon_slice"
+    },
+    {
+      "item": "minecraft:emerald"
+    }
+  ],
+  "result": {
+    "item": "skeffystews:fortune_stew",
+    "count": 1
+  }
+}
