@@ -52,7 +52,7 @@ public class StewPotMenu extends AbstractContainerMenu {
             this.addSlot(new StewPotIngredientSlot(this, iItemHandler, INGREDIENT_SLOT_1, 48, 17));
             this.addSlot(new StewPotIngredientSlot(this, iItemHandler, INGREDIENT_SLOT_2, 73, 17));
             this.addSlot(new StewPotFuelSlot(this, iItemHandler, FUEL_SLOT, 48, 53));
-            this.addSlot(new StewPotOutputSlot(iItemHandler,OUTPUT_SLOT, 132, 35));
+            this.addSlot(new StewPotOutputSlot(iItemHandler, this.blockEntity, OUTPUT_SLOT, 132, 35));
         });
 
         addPlayerInventory(inv);
