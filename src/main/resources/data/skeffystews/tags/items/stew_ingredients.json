@@ -9,6 +9,9 @@
     "minecraft:cooked_chicken",
     "minecraft:carrot",
     "minecraft:cooked_rabbit",
-    "minecraft:rabbit_foot"
+    "minecraft:rabbit_foot",
+    "minecraft:emerald",
+    "minecraft:golden_carrot",
+    "minecraft:golden_apple"
   ]
 }
