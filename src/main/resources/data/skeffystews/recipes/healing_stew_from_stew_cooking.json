@@ -2,7 +2,7 @@
   "type": "skeffystews:stew_cooking",
   "category": "food",
   "cookingtime": 200,
-  "experience": 0.7,
+  "experience": 1.2,
   "ingredients": [
     {
       "item": "skeffystews:tier_2_stew_base"
