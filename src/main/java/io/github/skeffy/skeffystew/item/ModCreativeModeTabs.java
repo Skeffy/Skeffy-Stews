@@ -40,6 +40,7 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.HEALING_STEW.get());
 
                         //Tier 3
+                        pOutput.accept(ModItems.EXPERIENCE_STEW.get());
                     })
                     .build());
 
