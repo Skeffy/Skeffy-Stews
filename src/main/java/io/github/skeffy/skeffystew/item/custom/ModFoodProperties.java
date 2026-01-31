@@ -30,4 +30,6 @@ public class ModFoodProperties {
             .saturationMod(1f).effect(() -> new MobEffectInstance(MobEffects.HEAL, 10), 100).build();
 
     //Tier 3
+    public static final FoodProperties EXPERIENCE_STEW = new FoodProperties.Builder().alwaysEat().nutrition(6)
+            .saturationMod(1f).effect(() -> new MobEffectInstance(ModEffects.EXPERIENCE_EFFECT.get(), 3600, 0), 100).build();
 }
