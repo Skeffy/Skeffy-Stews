@@ -18,5 +18,8 @@
   "item.skeffystews.fortune_stew": "Fortune Stew",
   "item.skeffystews.healing_stew": "Healing Stew",
 
-  "effect.skeffystews.player_fortune": "Fortune"
+  "item.skeffystews.experience_stew": "Experience Stew",
+
+  "effect.skeffystews.player_fortune": "Fortune",
+  "effect.skeffystews.experience_multiplier": "Experience Multiplier"
 }
