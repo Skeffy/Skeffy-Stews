@@ -14,6 +14,8 @@ public class ModEffects {
 
     public static final RegistryObject<MobEffect> FORTUNE_EFFECT = MOB_EFFECTS.register("player_fortune",
             () -> new FortuneEffect(MobEffectCategory.BENEFICIAL, 0xFFD700));
+    public static final RegistryObject<MobEffect> EXPERIENCE_EFFECT = MOB_EFFECTS.register("experience_multiplier",
+            () -> new ExperienceEffect(MobEffectCategory.BENEFICIAL, 0x00ff00));
 
     public static void register(IEventBus eventBus) {
         MOB_EFFECTS.register(eventBus);
