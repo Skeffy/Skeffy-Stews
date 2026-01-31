@@ -52,9 +52,8 @@ public class ModItems {
             () -> new Tier2StewItem(new StewItem.Properties().food(ModFoodProperties.HEALING_STEW)));
 
     //Tier 3
-
-
-    //TODO - XP Stew (higher tier)
+    public static final RegistryObject<Item> EXPERIENCE_STEW = ITEMS.register("experience_stew",
+            () -> new Tier3StewItem(new Item.Properties().food(ModFoodProperties.EXPERIENCE_STEW)));
 
 
     public static void register(IEventBus eventBus) {
